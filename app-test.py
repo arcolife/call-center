@@ -1,4 +1,4 @@
-from app import app
+from run import app
 import redis
 import os
 import unittest
@@ -15,7 +15,7 @@ class CloudTestCase(unittest.TestCase):
   def test_clouds(self):
     tester = app.test_client(self)
 
-    response = tester.get('x/clouds.json', content_type='application/json')
+    response = tester.get('/clouds.json', content_type='application/json')
 
     self.assertEqual(response.status_code, 200)
     self.assertEqual(response.data, json.dumps(['Altocumulus', 'Altostratus',
