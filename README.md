@@ -19,17 +19,29 @@ An attempt to develop a browser-based call-center demo.
 
   This is the customer's sample call generation / login portal
 
-- /call/status/CLID
+- /call/status/AGENT_CLID
   
-  This checks the caller ID's status (busy/free)
+  This checks Agent's caller ID status (busy/free)
 
-- /call/reset/CLID
+- /call/reset/AGENT_CLID
 
-  This resets the caller ID's status to Free
+  This resets Agent's caller ID's status to Free
 
-- /call/set/CLID
+- /call/set/AGENT_CLID
 
-  This sets the caller ID's status to Busy
+  This sets Agent's caller ID's status to Busy
+
+- /connect/CUST_CLID/AGENT_CLID
+
+  Connects customer's call to a free agent; sets agent's status
+
+- /connect/CUST_CLID/AGENT_CLID
+  
+  Diconnects customer's call from an agent; resets agent's status
+
+- /handle/CUST_CLID
+  
+  Re-routes customer's call to a busy tone if agent not free.
 
 ***
 
@@ -37,3 +49,4 @@ An attempt to develop a browser-based call-center demo.
 
 * CLID -> Caller ID
 * Use Plivo's endpoints credentials to login
+* Use shell.py to debug in realtime

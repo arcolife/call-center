@@ -13,11 +13,7 @@ from app import app
 from flask import Flask, \
     render_template, \
     Response, \
-    json, \
-    g, \
-    session, \
-    redirect, \
-    url_for
+    json
 
 from config import \
     HOST, \
@@ -27,10 +23,21 @@ from config import \
 
 
 #@app.before_request
+@app.route('/')
+def home(users=None):
+    """
+    Landing Page: contains links to login portals.
+    """
+    return render_template('index.html',
+                           username=None,
+                           users=users,
+                           **TEMPLATE_CONFIGURATION)
+
+
 @app.route('/call/set/<CLID>', methods=['GET','POST'])
 def set_call_status(CLID=None):
     """
-    set call status
+    set agent status to busy
     """
     #data = dict(call_id=CLID, call_status=1)
     app.redis.set(CLID, 1)
@@ -38,11 +45,10 @@ def set_call_status(CLID=None):
     return Response("Status set to <u>Busy</u> for <b>CLID:<b> " + CLID)
 
 
-#@app.before_request
 @app.route('/call/reset/<CLID>', methods=['GET','POST'])
 def reset_call_status(CLID=None):
     """
-    reset call status
+    reset agent status to free
     """
     if app.redis.exists(CLID):
         app.redis.set(CLID, 0)
@@ -68,26 +74,47 @@ def check_call_status(CLID=None):
         return Response("does not exist")
 
 
-@app.route('/')
-def home(users=None):
-    """
-    The web application main entry point.
-    """   
-    return render_template('index.html',
-                           username=None,
-                           users=users,
-                           **TEMPLATE_CONFIGURATION)
-
-
 @app.route('/agent')    
-def receive_call():
+def agent_portal():
+    """
+    Agent's login portal.
+    """
     #resp = Response("""sent call generation request. <a href="/">Go back.</a>""")
     return render_template('agent.html')
 
 
 @app.route('/customer')    
-def generate_call():
+def customer_portal():
+    """
+    Customer's login portal.
+    """
     return render_template('customer.html')
+
+
+@app.route('/connect/<cust_CLID>/<agent_CLID>', methods=['GET','POST'])
+def connect_call(cust_CLID=None, agent_CLID=None):
+    """
+    connect customer's call to agent.
+    """
+    set_call_status(CLID=agent_CLID)
+    return Response("skeleton that is supposed to connect customer's call to agent")
+
+
+@app.route('/disconnect/<cust_CLID>/<agent_CLID>', methods=['GET','POST'])
+def disconnect_call(cust_CLID=None, agent_CLID=None):
+    """
+    disconnect customer's call from agent.
+    """
+    reset_call_status(CLID=agent_CLID)
+    return Response("skeleton that is supposed to disconnect customer's call from agent")
+
+
+@app.route('/handle/CLID', methods=['GET','POST'])
+def reroute_customer(CLID=None):
+    """
+    Re-routes customer to busy tone.
+    """
+    return Response("skeleton that is supposed to reroute customer to a busy tone.")
 
 
 @app.route("/clouds.json")
