@@ -26,17 +26,41 @@ from config import \
     TEMPLATE_CONFIGURATION
 
 
-@app.before_request
-def before_request():
+#@app.before_request
+@app.route('/call/set/<CLID>', methods=['GET','POST'])
+def set_call_status(CLID=None):
     """
-    pull user's profile from the database before every request are treated
+    set call status
     """
-    g.user = None
-    if 'user_id' in session:
-        try:
-            g.user = User.objects.get(id=session['user_id']).username
-        except: 
-            g.user = 'anonymous'
+    #data = dict(call_id=CLID, call_status=1)
+    app.redis.set(CLID, 1)
+    print "%s status set to busy" % (CLID)
+    return Response("Status set to Busy for <b>CLID:<b> " + CLID)
+
+#@app.before_request
+@app.route('/call/reset/<CLID>', methods=['GET','POST'])
+def reset_call_status(CLID=None):
+    """
+    reset call status
+    """
+    app.redis.set(CLID, 0)
+    print "Agent %s's status set to Ready" % (CLID)
+    return Response("Status set to Ready for <b>CLID:<b> " + CLID)
+    
+@app.route('/call/status/<CLID>', methods=['GET','POST'])
+def check_call_status(CLID=None):
+    """
+    check call status
+    """
+    call_status = app.redis.get(CLID)
+    if call_status=='1':
+        print "Agent %s is busy!" % (CLID)
+        return Response("busy")
+    elif call_status=='0':
+        print "Agent %s is free to consult!" % (CLID)
+        return Response("free")
+    else:
+        return Response("does not exist")
 
 @app.route('/')
 def home(users=None):
