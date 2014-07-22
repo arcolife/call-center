@@ -7,7 +7,9 @@ An attempt to develop a browser-based call-center demo.
 
 [![wercker status](https://app.wercker.com/status/87d785e8ae74f2f010b036369a4ae76c/m "wercker status")](https://app.wercker.com/project/bykey/87d785e8ae74f2f010b036369a4ae76c)
 
-** Useful information
+***
+
+### Useful information
 
 - /agent
   
@@ -17,14 +19,21 @@ An attempt to develop a browser-based call-center demo.
 
   This is the customer's sample call generation / login portal
 
-- /call/status/<CLID>
+- /call/status/CLID
   
   This checks the caller ID's status (busy/free)
 
-- /call/reset/<CLID>
+- /call/reset/CLID
 
   This resets the caller ID's status to Free
 
-- /call/set/<CLID>
+- /call/set/CLID
 
   This sets the caller ID's status to Busy
+
+***
+
+### Notes
+
+* CLID -> Caller ID
+* Use Plivo's endpoints credentials to login
