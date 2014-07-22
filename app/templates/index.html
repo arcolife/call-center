@@ -27,19 +27,19 @@
       </ul>
     </div>
 
-    <div class="col-lg-3">
-      <ul>
-	{% if username %}
-	<li><a href="/{{username}}">My stuff</a></li>
-	<li><a href="/users/logout/">Logout</a></li>
-	{% else %}
-	Not logged In!
-	<br />
-	<li><a href="/users/login/">Login here</a></li>
-	<li><a href="/users/register/">Register here</a></li>
-	{% endif %}
-      </ul>
-    </div>
+    <!-- <div class="col-lg-3"> -->
+    <!--   <ul> -->
+    <!-- 	{% if username %} -->
+    <!-- 	<li><a href="/{{username}}">My stuff</a></li> -->
+    <!-- 	<li><a href="/users/logout/">Logout</a></li> -->
+    <!-- 	{% else %} -->
+    <!-- 	Not logged In! -->
+    <!-- 	<br /> -->
+    <!-- 	<li><a href="/users/login/">Login here</a></li> -->
+    <!-- 	<li><a href="/users/register/">Register here</a></li> -->
+    <!-- 	{% endif %} -->
+    <!--   </ul> -->
+    <!-- </div> -->
     
   </body>
   <script src="{{ url_for('static', filename='scale.fix.js') }}"></script>
