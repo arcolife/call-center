@@ -11,22 +11,18 @@
   </head>
   <body>
 
-    <div class="wrapper">
-      <p style="color: Green;">Agent Status Dashboard</p>
+    <div class="wrapper" style="padding-left: 20em;">
+      <p style="color: Green;">Dashboard</p>
     </div>
     <hr />
-
-    <div class="col-lg-8"> 
-      <ul>
-	<li><a href="/call"><u>Generate Call</u></a></li>
-	{% if users %}
-	{% for user in users %}
-	<li><a href="/{{user.username}}"><u>{{user.username}}'s call history</u></a></li>
-	{% endfor %}
-	{% endif %}
-      </ul>
+    
+    <div class="col-lg-1"></div>
+    <div class="col-lg-4"> 
+	<a href="/agent"><u>Agent Login</u><br />(receive calls)</a>
     </div>
-
+    <div class="col-lg-4"> 
+	<a href="/customer"><u>Sample Customer Login</u><br />(generate calls)</a>
+    </div>
     <!-- <div class="col-lg-3"> -->
     <!--   <ul> -->
     <!-- 	{% if username %} -->

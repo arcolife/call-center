@@ -1,7 +1,5 @@
 # Import flask and template operators
 from flask import Flask, render_template
-# Import MongoEngine
-# from flask.ext.mongoengine import MongoEngine
 import sys
 import os
 import redis
@@ -13,14 +11,6 @@ app.redis = redis.StrictRedis(host=os.getenv('WERCKER_REDIS_HOST', 'localhost'),
 
 # Configurations
 app.config.from_object('config')
-
-# app.config["MONGODB_SETTINGS"] = { 
-#     "DB": os.environ.get("PLIVO_DB"),
-#     "USERNAME": os.environ.get("PLIVO_USER"),
-#     "PASSWORD": os.environ.get("PLIVO_PASS"),
-#     "HOST": "127.0.0.1",
-#     "PORT": 27017 }
-# db = MongoEngine(app)
 
 def install_secret_key(app, filename='secret_key'):
     """Configure the SECRET_KEY from a file
