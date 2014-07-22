@@ -1,5 +1,7 @@
 box: wercker/python
 # Build definition
+services:
+  - wercker/redis
 build:
   # The steps that will be executed on build
   steps:
