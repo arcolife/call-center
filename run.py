@@ -35,7 +35,8 @@ def set_call_status(CLID=None):
     #data = dict(call_id=CLID, call_status=1)
     app.redis.set(CLID, 1)
     print "%s status set to busy" % (CLID)
-    return Response("Status set to Busy for <b>CLID:<b> " + CLID)
+    return Response("Status set to <u>Busy</u> for <b>CLID:<b> " + CLID)
+
 
 #@app.before_request
 @app.route('/call/reset/<CLID>', methods=['GET','POST'])
@@ -43,10 +44,14 @@ def reset_call_status(CLID=None):
     """
     reset call status
     """
-    app.redis.set(CLID, 0)
-    print "Agent %s's status set to Ready" % (CLID)
-    return Response("Status set to Ready for <b>CLID:<b> " + CLID)
-    
+    if app.redis.exists(CLID):
+        app.redis.set(CLID, 0)
+        print "Agent %s's status set to Ready" % (CLID)
+        return Response("Status set to <u>Ready</u> for <b>CLID:<b> " + CLID)
+    else:
+        return Response("Agent " + CLID + " Does Not Exist!")
+
+
 @app.route('/call/status/<CLID>', methods=['GET','POST'])
 def check_call_status(CLID=None):
     """
@@ -62,6 +67,7 @@ def check_call_status(CLID=None):
     else:
         return Response("does not exist")
 
+
 @app.route('/')
 def home(users=None):
     """
@@ -72,14 +78,17 @@ def home(users=None):
                            users=users,
                            **TEMPLATE_CONFIGURATION)
 
+
 @app.route('/agent')    
 def receive_call():
     #resp = Response("""sent call generation request. <a href="/">Go back.</a>""")
     return render_template('agent.html')
 
+
 @app.route('/customer')    
 def generate_call():
     return render_template('customer.html')
+
 
 @app.route("/clouds.json")
 def clouds():
