@@ -8,10 +8,6 @@
 import sys
 import redis
 
-from os import chmod, \
-               getpid, \
-               getppid
-
 from app import app
 
 from flask import Flask, \
