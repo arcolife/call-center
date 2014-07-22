@@ -1,5 +1,4 @@
 from run import app
-import redis
 import os
 import unittest
 import json
