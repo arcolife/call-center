@@ -74,7 +74,7 @@ def home(users=None):
     The web application main entry point.
     """   
     return render_template('index.html',
-                           username=g.user,
+                           username=None,
                            users=users,
                            **TEMPLATE_CONFIGURATION)
 
