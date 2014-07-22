@@ -13,9 +13,7 @@ from os import chmod, \
                getppid
 from shutil import copyfile
 from time import time
-from app import app#, db
-# from app.users.decorators import requires_login
-# from app.users.models import User
+from app import app
 
 from flask import Flask, \
     render_template, \
@@ -30,9 +28,6 @@ from flask import Flask, \
     url_for
 
 from config import \
-    TEMPLATE_CONFIGURATION, \
-    RESTRICT_BY_IP, \
-    IPS, \
     HOST, \
     PORT, \
     DEBUG
@@ -55,7 +50,6 @@ def home(users=None):
     """
     The web application main entry point.
     """   
-    #users = User.objects
     return render_template('index.html',
                            username=g.user,
                            users=users,
@@ -93,12 +87,8 @@ def save_pid():
 
 if __name__ == '__main__':
     try:
-        # First, store the process ID
-        save_pid()
-        # Configure and start the web application 
-        # with the given settings.
         app.run(host = HOST,
                 port = PORT,
-                debug = True)
+                debug = DEBUG)
     except:
         raise
