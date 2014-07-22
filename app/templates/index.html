@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Plivo Call Center Demo</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pygment_trac.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+
+    <div class="wrapper">
+      <p style="color: Green;">Call Center based on Plivo Voice APIs</p>
+    </div>
+    <hr />
+
+    <div class="col-lg-8"> 
+      <ul>
+	<li><a href="/call"><u>Generate Call</u></a></li>
+	{% if users %}
+	{% for user in users %}
+	<li><a href="/{{user.username}}"><u>{{user.username}}'s call history</u></a></li>
+	{% endfor %}
+	{% endif %}
+      </ul>
+    </div>
+
+    <div class="col-lg-3">
+      <ul>
+	{% if username %}
+	<li><a href="/{{username}}">My stuff</a></li>
+	<li><a href="/users/logout/">Logout</a></li>
+	{% else %}
+	Not logged In!
+	<br />
+	<li><a href="/users/login/">Login here</a></li>
+	<li><a href="/users/register/">Register here</a></li>
+	{% endif %}
+      </ul>
+    </div>
+    
+  </body>
+  <script src="{{ url_for('static', filename='scale.fix.js') }}"></script>
+</html>
