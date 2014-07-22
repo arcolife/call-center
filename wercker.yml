@@ -29,4 +29,4 @@ build:
           echo "pip version $(pip --version) running"
 
         name: flask tests
-        code: python app_test.py
+        code: python app-test.py
