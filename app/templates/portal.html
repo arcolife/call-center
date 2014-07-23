@@ -133,14 +133,12 @@
 
     function onCallRemoteRinging() {
     $('#status_txt').text('Ringing..');
-    $.post("/agent/busy");
     }
 
     function onCallAnswered() {
     console.log('onCallAnswered');
     callAnsweredUI();
     $('#status_txt').text('Call Answered');
-    $.post("/agent/busy");
     }
 
     function onCallTerminated() {
@@ -162,7 +160,6 @@
     if (isNotEmpty(dest)) {
     $('#status_txt').text('Calling..');
     Plivo.conn.call(dest);
-    $.post("/agent/busy");
     $('#make_call').text('End');
     }
     else{
@@ -236,13 +233,13 @@
     console.log("answering")
     $('#status_txt').text('Answering....');
     Plivo.conn.answer();
-    $.post("/agent/busy");
     callAnsweredUI()
     }
 
     function reject() {
     callUI()
     Plivo.conn.reject();
+    $.post("/agent/hangup");
     }
 
     $(document).ready(function() {

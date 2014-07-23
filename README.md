@@ -43,7 +43,7 @@ Different URL paths and their uses:
   
   logs out agent.
   
-- /call/route?custID=1234
+- /call/route?CLID=1234
   
   Re-routes customer's call to a busy tone if agent not free. 
 

@@ -24,9 +24,6 @@ app.redis.set(app.config['SIP_ENDPOINT'],0) # TODO: add models and set this only
 app.redis.hmset('agent',{'username': app.config['SIP_ENDPOINT'],
                          'password': generate_password_hash(os.environ.get('PLIVO_PASS'))})
 
-# from rq import Queue
-# q = Queue(connection=redis.Redis())
-
 # def install_secret_key(app, filename='secret_key'):
 #     """Configure the SECRET_KEY from a file
 #     in the instance directory.
@@ -55,5 +52,7 @@ app.redis.hmset('agent',{'username': app.config['SIP_ENDPOINT'],
 def not_found(error):
     return render_template('404.html'), 404
 
-# from app.users.views import mod as usersModule
-# app.register_blueprint(usersModule)
+from RedisQueue import RedisQueue as rq
+#app.register_blueprint(rq)
+
+q = rq('userQueue')

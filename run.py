@@ -8,8 +8,9 @@
 import sys
 import redis
 import plivo 
+import datetime
 
-from app import app
+from app import app, q
 from werkzeug import check_password_hash
 
 from flask import Flask, \
@@ -111,10 +112,10 @@ def call_route(CLID=None):
     Re-routes customer to busy tone or to the agent.
     """
     plivo_response = plivo.XML.Response()
-    if app.redis.exists(SIP_ENDPOINT): # if agent logged in
-        if app.redis.get('agentLoggedIn') == '1':
-            if app.redis.get('agentReady') == '1': #if agent available
-                app.redis.set(SIP_ENDPOINT, 1) #set to busy
+    if app.redis.exists(SIP_ENDPOINT): # if agent exists
+        if app.redis.get('agentLoggedIn') == '1': # if agent logged in
+            if app.redis.get('agentReady') == '1': # if agent available
+                app.redis.set('agentReady', 1) # agent is set to busy
                 # build XML response
                 plivo_response.addWait(length=3)
                 plivo_response.addSpeak(CALL_ANNOUNCEMENT)
@@ -122,15 +123,18 @@ def call_route(CLID=None):
                 plivo_response.addDial(callerId=AGENT_CALLER_ID)\
                               .addUser('sip:'+SIP_ENDPOINT+'@phone.plivo.com')
             else:
-                # increment queued users count
-                app.redis.incr('queuedUsers')
+                # add to queued users
+                # temp_val = int((datetime.datetime.now() - \
+                #                 datetime.datetime(2014, 7, 7))\
+                #                .total_seconds() * 1000)
+                # app.redis.incr('queuedUsers')
                 # add user to queued list
-                cust_CLID = request.args.get('custID') # TODO: add datetime
+                cust_CLID = request.args.get('CLID') # TODO: add datetime
                 if cust_CLID:
-                    app.redis.rpush('userQueue', cust_CLID)
+                    #app.redis.rpush('userQueue', cust_CLID)
+                    q.put(cust_CLID)
                 # put user on hold
                 return redirect('/call/music')
-            print int(app.redis.get(SIP_ENDPOINT))
         else:
             plivo_response.addSpeak(AGENT_NOT_LOGGEDIN)            
     else:
