@@ -76,8 +76,8 @@ def call_music():
 @app.route('/agent/login', methods=['POST'])
 def agent_set():
     # app.redis.hgetall('agentID')
-    plivo_user = app.redis.hget('agent_credentials','username')
-    plivo_pass = app.redis.hget('agent_credentials','password')
+    plivo_user = app.redis.hget('agent','username')
+    plivo_pass = app.redis.hget('agent','password')
     resp_user = request.args.get('username')
     resp_pass = request.args.get('password')
     if plivo_user == resp_user:
