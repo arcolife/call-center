@@ -29,7 +29,7 @@ An attempt to develop a browser-based call-center. :neckbeard:
 
 * Step 4: Go to http://localhost:5000/ and start your own call center. :sunglasses: :stuck_out_tongue_closed_eyes:
 
-* Step 5: Refer below for information on different URL's and their usage.
+* Step 5: Refer below for information on different URLs and their usage.
 
 ### Useful information
 
@@ -72,3 +72,4 @@ An attempt to develop a browser-based call-center. :neckbeard:
 * CLID -> Caller ID
 * Use Plivo's endpoints credentials to login
 * Use shell.py to debug in realtime
+* If you liked this, go to [this awesome voicechat demo](http://voicechatapi.com/) and try a conference call :smirk:
