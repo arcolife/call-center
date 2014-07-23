@@ -102,10 +102,12 @@
 
     function login() {
     Plivo.conn.login($("#username").val(), $("#password").val());
+    $.post( "/agent/login", [ $("#username").val(), $("#password").val()]);
     }
 
     function logout() {
     Plivo.conn.logout();
+    $.post("/agent/logout");
     }
 
     function onLogin() {
@@ -126,27 +128,32 @@
     function onCalling() {
     console.log("onCalling");
     $('#status_txt').text('Connecting....');
+    $.post("/agent/busy");
     }
 
     function onCallRemoteRinging() {
     $('#status_txt').text('Ringing..');
+    $.post("/agent/busy");
     }
 
     function onCallAnswered() {
     console.log('onCallAnswered');
     callAnsweredUI();
     $('#status_txt').text('Call Answered');
+    $.post("/agent/busy");
     }
 
     function onCallTerminated() {
     console.log("onCallTerminated");
     callUI();
+    $.post("/agent/hangup");
     }
 
     function onCallFailed(cause) {
     console.log("onCallFailed:"+cause);
     callUI();
     $('#status_txt').text("Call Failed:"+cause);
+    $.post("/agent/hangup");
     }
 
     function call() {
@@ -154,8 +161,8 @@
     var dest = $("#to").val();
     if (isNotEmpty(dest)) {
     $('#status_txt').text('Calling..');
-
     Plivo.conn.call(dest);
+    $.post("/agent/busy");
     $('#make_call').text('End');
     }
     else{
@@ -168,12 +175,14 @@
     Plivo.conn.hangup();
     $('#make_call').text('Call');
     $('#status_txt').text('Ready');
+    $.post("/agent/hangup");
     }
     }
 
     function hangup() {
     $('#status_txt').text('Hanging up..');
     Plivo.conn.hangup();
+    $.post("/agent/hangup");
     callUI()
     }
 
@@ -212,6 +221,7 @@
 
     function onIncomingCallCanceled() {
     callUI();
+    $.post("/agent/hangup");
     }
 
     function  onMediaPermission (result) {
@@ -226,6 +236,7 @@
     console.log("answering")
     $('#status_txt').text('Answering....');
     Plivo.conn.answer();
+    $.post("/agent/busy");
     callAnsweredUI()
     }
 
@@ -281,7 +292,7 @@
         <span class="label" id="status_txt">Login</span><br/><br/>
 
 
-        <form id="login_box" title="Login" style="">
+        <form id="login_box" title="Login" style="" action="/agent/login" method="get">
           <label>Username</label>
           <input type="text" name="username" value="" id="username">
 

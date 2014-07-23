@@ -20,11 +20,11 @@
 
 ***
 
-- [ ] host on an instance (since no heroku verified account present)
-- [ ] connect flask routes to (SDK based) receive / hangup a call
+- [x] host on an instance (since no heroku verified account present)
 - [x] add functionalities to call queue handling method
 - [x] add agent login status models
 - [ ] associate datetime with userQueue in redis
+- [x] connect flask routes to SDK
 
 ***
 

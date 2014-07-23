@@ -74,23 +74,35 @@ def call_music():
     response.headers['content-type'] = 'text/xml'
     return response
 
-
-@app.route('/agent/login', methods=['POST'])
+@app.route('/agent/hangup', methods=['GET','POST'])
+@app.route('/agent/login', methods=['GET','POST'])
 def agent_set():
     # app.redis.hgetall('agentID')
-    plivo_user = app.redis.hget('agent','username')
-    plivo_pass = app.redis.hget('agent','password')
-    resp_user = request.args.get('username')
-    resp_pass = request.args.get('password')
-    if plivo_user == resp_user:
-        if check_password_hash(plivo_pass, resp_pass):
-            app.redis.set('agentLoggedIn',1)
+    # plivo_user = app.redis.hget('agent','username')
+    # plivo_pass = app.redis.hget('agent','password')
+    # resp_user = request.args.get('username')
+    # resp_pass = request.args.get('password')
+    # print resp_user, resp_pass
+    # if plivo_user == resp_user:
+    #     if check_password_hash(plivo_pass, resp_pass):
+    #         app.redis.set('agentLoggedIn',1)
+    app.redis.set('agentLoggedIn',1)
+    app.redis.set('agentReady',1)
+    return Response('1')
+            
+@app.route('/agent/busy', methods=['GET','POST'])
+def agent_busy():
+    # app.redis.hgetall('agentID')
+    app.redis.set('agentLoggedIn',1)
+    app.redis.set('agentReady',0)
+    return Response('0')
 
-
-@app.route('/agent/logout', methods=['POST'])
+@app.route('/agent/logout', methods=['GET','POST'])
 def agent_reset():
     # app.redis.hgetall('agentID')
     app.redis.set('agentLoggedIn',0)
+    app.redis.set('agentReady',0)
+    return Response('0')
 
 
 @app.route('/call/route', methods=['GET','POST'])
@@ -101,7 +113,7 @@ def call_route(CLID=None):
     plivo_response = plivo.XML.Response()
     if app.redis.exists(SIP_ENDPOINT): # if agent logged in
         if app.redis.get('agentLoggedIn') == '1':
-            if not int(app.redis.get(SIP_ENDPOINT)): #if agent available
+            if app.redis.get('agentReady') == '1': #if agent available
                 app.redis.set(SIP_ENDPOINT, 1) #set to busy
                 # build XML response
                 plivo_response.addWait(length=3)
