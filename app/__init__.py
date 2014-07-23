@@ -12,6 +12,14 @@ app.redis = redis.StrictRedis(host=os.getenv('WERCKER_REDIS_HOST', 'localhost'),
 # Configurations
 app.config.from_object('config')
 
+app.redis.set(app.config['AGENT_CALLER_ID'], app.config['SIP_ENDPOINT'])
+app.redis.set('queuedUsers',0)
+app.redis.set('agentLoggedIn',0)
+app.redis.set('agentReady',0)
+
+# warning: the env var set below is just for testing
+app.redis.set(app.config['SIP_ENDPOINT'],0) # TODO: add models and set this only when logged in
+
 # def install_secret_key(app, filename='secret_key'):
 #     """Configure the SECRET_KEY from a file
 #     in the instance directory.

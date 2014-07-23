@@ -15,7 +15,8 @@ from flask import Flask, \
     render_template, \
     Response, \
     json, \
-    make_response
+    make_response, \
+    request
 
 from config import \
     HOST, \
@@ -24,7 +25,9 @@ from config import \
     TEMPLATE_CONFIGURATION, \
     CALL_WAIT_MESSAGE, \
     CALL_ANNOUNCEMENT, \
-    HOLD_MUSIC
+    HOLD_MUSIC, \
+    SIP_ENDPOINT, \
+    AGENT_CALLER_ID
 
 #@app.before_request
 @app.route('/')
@@ -39,66 +42,19 @@ def index(users=None):
                            **TEMPLATE_CONFIGURATION)
 
 
+# def agent_status_update():
+#     if app.redis.exists(SIP_ENDPOINT):
+#         app.redis.set(SIP_ENDPOINT, 0)
+#     else:
+#         return False
+#     return True
+
 @app.route('/portal/<user_type>')    
 def portal(user_type):
     """
     login portal.
     """
     return render_template('portal.html', user_type=user_type)
-
-
-@app.route('/call/status/set/<CLID>', methods=['GET','POST'])
-def call_status_set(CLID=None):
-    """
-    set agent status to busy
-    """
-    #data = dict(CLID=CLID, status=1)
-    app.redis.set(CLID, 1)
-    return Response("Status set to <u>Busy</u> for <b>CLID:<b> " + CLID)
-
-
-@app.route('/call/status/reset/<CLID>', methods=['GET','POST'])
-def call_status_reset(CLID=None):
-    """
-    reset agent status to free
-    """
-    if app.redis.exists(CLID):
-        app.redis.set(CLID, 0)
-        return Response("Status set to <u>Ready</u> for <b>CLID:<b> " + CLID)
-    else:
-        return Response("Agent " + CLID + " Does Not Exist!")
-
-
-@app.route('/call/status/check/<CLID>', methods=['GET','POST'])
-def call_status_check(CLID=None):
-    """
-    check call status
-    """
-    call_status = app.redis.get(CLID)
-    if call_status=='1':
-        return Response("busy")
-    elif call_status=='0':
-        return Response("free")
-    else:
-        return Response("does not exist")
-
-
-@app.route('/call/connect/<cust_CLID>/<agent_CLID>', methods=['GET','POST'])
-def call_connect(cust_CLID=None, agent_CLID=None):
-    """
-    connect customer's call to agent.
-    """
-    set_call_status(CLID=agent_CLID)
-    return Response("skeleton that is supposed to connect customer's call to agent")
-
-
-@app.route('/call/disconnect/<cust_CLID>/<agent_CLID>', methods=['GET','POST'])
-def call_disconnect(cust_CLID=None, agent_CLID=None):
-    """
-    disconnect customer's call from agent.
-    """
-    reset_call_status(CLID=agent_CLID)
-    return Response("skeleton that is supposed to disconnect customer's call from agent")
 
 
 @app.route('/call/music/', methods=['GET', 'POST'])
@@ -115,12 +71,36 @@ def call_music():
     return response
 
 
-@app.route('/call/route/CLID', methods=['GET','POST'])
-def call_reroute_customer(CLID=None):
+@app.route('/call/route', methods=['GET','POST'])
+def call_route(CLID=None):
     """
-    Re-routes customer to busy tone.
+    Re-routes customer to busy tone or to the agent.
     """
-    return Response("skeleton that is supposed to reroute customer to a busy tone.")
+    plivo_response = plivo.XML.Response()
+    if app.redis.exists(SIP_ENDPOINT): # if agent logged in
+        if not int(app.redis.get(SIP_ENDPOINT)): #if agent available
+            plivo_response.addWait(length=2)
+            plivo_response.addSpeak(CALL_ANNOUNCEMENT)
+
+            app.redis.set(SIP_ENDPOINT, 1) #set to busy
+            # forward call to SIP endpoint
+            plivo_response.addDial(callerId=AGENT_CALLER_ID)\
+                          .addUser('sip:'+SIP_ENDPOINT+'@phone.plivo.com')
+        else:
+            # increment queued users count
+            app.redis.incr('queuedUsers')
+            # add user to queued list
+            cust_CLID = request.args.get('custID') # TODO: add datetime
+            app.redis.rpush('userQueue', cust_CLID)
+            # put user on hold
+            return redirect('/call/music')
+    else:
+        # no such agent found
+        plivo_response.addSpeak('Agent does not exist or not logged in!')
+    response = make_response(render_template('response_template.xml',
+                                             response=plivo_response))
+    response.headers['content-type'] = 'text/xml'
+    return response
 
 
 @app.route("/clouds.json")

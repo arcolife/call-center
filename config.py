@@ -17,6 +17,8 @@ CALL_WAIT_MESSAGE = "You are currently being put on hold since the agent  is bus
 # Announcement message before entering the call
 CALL_ANNOUNCEMENT = 'Welcome to the Plivo call-center. How may I help you?'
 
+SIP_ENDPOINT = os.environ.get('SIP_ENDPOINT')
+AGENT_CALLER_ID = os.environ.get('CALLER_ID')
 
 # Application threads. A common general assumption is
 # using 2 per available processor cores - to handle
