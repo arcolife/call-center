@@ -15,15 +15,13 @@ An attempt to develop a browser-based call-center. :neckbeard:
 
 * Step 3: Execute the following commands in console:
 
-  1. ``` $ pip install -r requirements.txt ```
+  1. clone this repo; go to project root; run:
+   ``` $ pip install -r requirements.txt ```
 
-  2. To start the instance
-       
-   ``` $ ./start ``` 
-   
+  2. To start an instance:
+       ``` $ ./start ``` 
    OR 
-   
-   ``` $ foreman start ```
+	``` $ foreman start ```
 
 * Step 4: Go to http://localhost:5000/ and start your own call center. :sunglasses: :stuck_out_tongue_closed_eyes:
 
