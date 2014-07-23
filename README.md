@@ -31,37 +31,37 @@ An attempt to develop a browser-based call-center. :neckbeard:
 
 Different URL paths and their uses:
  
-- /agent
+- /portal/<user_type>
   
-  This is the agent's login portal
+  This is the login portal for customer/agent
 
-- /customer
-
-  This is the customer's sample call generation / login portal
-
-- /call/status/AGENT_CLID
+- /call/status/check/AGENT_CLID
   
   This checks Agent's caller ID status (busy/free)
 
-- /call/reset/AGENT_CLID
+- /call/status/reset/AGENT_CLID
 
   This resets Agent's caller ID's status to Free
 
-- /call/set/AGENT_CLID
+- /call/status/set/AGENT_CLID
 
   This sets Agent's caller ID's status to Busy
 
-- /connect/CUST_CLID/AGENT_CLID
+- /call/connect/CUST_CLID/AGENT_CLID
 
   Connects customer's call to a free agent; sets agent's status
 
-- /connect/CUST_CLID/AGENT_CLID
+- /call/disconnect/CUST_CLID/AGENT_CLID
   
   Diconnects customer's call from an agent; resets agent's status
 
-- /handle/CUST_CLID
+- /call/route/CUST_CLID
   
   Re-routes customer's call to a busy tone if agent not free.
+
+- /call/music/
+
+  Return music as XML response for call on hold
 
 ***
 

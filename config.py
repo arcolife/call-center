@@ -8,10 +8,15 @@ DEBUG = True
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
 
-# Define the database - we are working with
-# SQLite for this example
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
-DATABASE_CONNECT_OPTIONS = {}
+# Wait announcement music when there is only 1 participant in the conference
+HOLD_MUSIC = 'https://s3.amazonaws.com/plivocloud/music.mp3'
+
+# Wait announcement message when there is only 1 participant in the conference
+CALL_WAIT_MESSAGE = "You are currently being put on hold since the agent  is busy with another customer. Please wait. Thank you."
+
+# Announcement message before entering the call
+CALL_ANNOUNCEMENT = 'Welcome to the Plivo call-center. How may I help you?'
+
 
 # Application threads. A common general assumption is
 # using 2 per available processor cores - to handle
@@ -25,11 +30,6 @@ CSRF_ENABLED     = True
 # Use a secure, unique and absolutely secret key for
 # signing the data. 
 CSRF_SESSION_KEY = "#%^@^%^*THD33SDFCVWRB%vergsdpxry02%%"
-
-RECAPTCHA_USE_SSL = False
-RECAPTCHA_PUBLIC_KEY = '6LeYIbsSAAAAACRPIllxA7wvXjIE411PfdB2gt2J'
-RECAPTCHA_PRIVATE_KEY = '6LeYIbsSAAAAAJezaIq3Ft_hSTo0YtyeFG-JgRtu'
-RECAPTCHA_OPTIONS = {'theme': 'white'}
 
 # Secret key for signing cookies
 SECRET_KEY = "#$FSDFSETE^$TFEFV#$%$&"
@@ -52,13 +52,6 @@ TEMPLATE_CONFIGURATION = {
 ##########################
 # Web Application settings
 ##########################
-
-# Should we restrict the access to specific IPs?
-RESTRICT_BY_IP = False
-
-# List of safe IPs to access the application
-IPS = ("127.0.0.1") #,
-       #"",)
 
 # The host IP to run the application from
 #HOST = "127.0.0.1"

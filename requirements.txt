@@ -14,3 +14,4 @@ itsdangerous==0.24
 python-openid==2.2.5
 redis==2.10.1
 wsgiref==0.1.2
+plivo==0.9.6

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Call Center Demo</title>
+    <title>{{title}}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='pygment_trac.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -22,10 +22,10 @@
     
     <div class="col-lg-1"></div>
     <div class="col-lg-4"> 
-      <a href="/agent"><u>Agent Login</u><br />(receive calls)</a>
+      <a href="/portal/agent"><u>Agent Login</u><br />(receive calls)</a>
     </div>
     <div class="col-lg-4"> 
-      <a href="/customer"><u>Sample Customer Login</u><br />(generate calls)</a>
+      <a href="/portal/customer"><u>Sample Customer Login</u><br />(generate calls)</a>
     </div>
   </body>
   <script src="{{ url_for('static', filename='scale.fix.js') }}"></script>
