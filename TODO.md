@@ -22,9 +22,12 @@
 
 - [ ] host on an instance (since no heroku verified account present)
 - [ ] minmal functionalities to receive a call
+- [ ] add functionalities to call queue handling method
+
+***
+
 - [ ] refine status labels (modify JS) 
 - [ ] refine agent/customer interface
-- [ ] add functionalities to call queue handling method
 - [ ] investigate busy / unavailable issue
 - [ ] investigate same SIP being called when different(UK/US) numbers dialed
   - [ ] use of fallback URL
