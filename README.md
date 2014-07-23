@@ -35,29 +35,19 @@ Different URL paths and their uses:
   
   This is the login portal for customer/agent
 
-- /call/status/check/AGENT_CLID
+- /agent/login
   
-  This checks Agent's caller ID status (busy/free)
+  changes agent's login status in DB (based on credentials from form)
 
-- /call/status/reset/AGENT_CLID
-
-  This resets Agent's caller ID's status to Free
-
-- /call/status/set/AGENT_CLID
-
-  This sets Agent's caller ID's status to Busy
-
-- /call/connect/CUST_CLID/AGENT_CLID
-
-  Connects customer's call to a free agent; sets agent's status
-
-- /call/disconnect/CUST_CLID/AGENT_CLID
+- /agent/logout
   
-  Diconnects customer's call from an agent; resets agent's status
-
-- /call/route/CUST_CLID
+  logs out agent.
   
-  Re-routes customer's call to a busy tone if agent not free.
+- /call/route?custID=1234
+  
+  Re-routes customer's call to a busy tone if agent not free. 
+
+  Else replies in affirmative, as XML.
 
 - /call/music/
 
