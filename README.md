@@ -24,7 +24,7 @@ An attempt to develop a browser-based call-center demo.
 ```
        $ ./start
 ```
-         OR 
+OR 
 ```	 
        $ foreman start
 ```
