@@ -1,14 +1,12 @@
 Call-Center Demo
 ================
+[![wercker status](https://app.wercker.com/status/87d785e8ae74f2f010b036369a4ae76c/m "wercker status")](https://app.wercker.com/project/bykey/87d785e8ae74f2f010b036369a4ae76c)
 
 An attempt to develop a browser-based call-center. :neckbeard:
 
 [Demo page](http://callcenter1.herokuapp.com/) <-- currently not fully functional
 
-[![wercker status](https://app.wercker.com/status/87d785e8ae74f2f010b036369a4ae76c/m "wercker status")](https://app.wercker.com/project/bykey/87d785e8ae74f2f010b036369a4ae76c)
-
 ***
-
 ### Basic Steps to get started.
 
 * Step 1: Register on Plivo and add some credit to get started
@@ -33,6 +31,8 @@ An attempt to develop a browser-based call-center. :neckbeard:
 
 ### Useful information
 
+Different URL paths and their uses:
+ 
 - /agent
   
   This is the agent's login portal
