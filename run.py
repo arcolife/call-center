@@ -29,7 +29,10 @@ from config import \
     CALL_ANNOUNCEMENT, \
     HOLD_MUSIC, \
     SIP_ENDPOINT, \
-    AGENT_CALLER_ID
+    AGENT_CALLER_ID, \
+    AGENT_NOT_LOGGEDIN, \
+    AGENT_DOESNT_EXIST
+
 
 #@app.before_request
 @app.route('/')
@@ -42,7 +45,6 @@ def index(users=None):
                            users=users,
                            landing_page=True,
                            **TEMPLATE_CONFIGURATION)
-
 
 # def agent_status_update():
 #     if app.redis.exists(SIP_ENDPOINT):
@@ -102,7 +104,7 @@ def call_route(CLID=None):
             if not int(app.redis.get(SIP_ENDPOINT)): #if agent available
                 app.redis.set(SIP_ENDPOINT, 1) #set to busy
                 # build XML response
-                plivo_response.addWait(length=2)
+                plivo_response.addWait(length=3)
                 plivo_response.addSpeak(CALL_ANNOUNCEMENT)
                 # forward call to SIP endpoint
                 plivo_response.addDial(callerId=AGENT_CALLER_ID)\
@@ -118,10 +120,10 @@ def call_route(CLID=None):
                 return redirect('/call/music')
             print int(app.redis.get(SIP_ENDPOINT))
         else:
-            plivo_response.addSpeak('Agent not logged in!')            
+            plivo_response.addSpeak(AGENT_NOT_LOGGEDIN)            
     else:
         # no such agent found
-        plivo_response.addSpeak('Agent does not exist!')
+        plivo_response.addSpeak(AGENT_DOESNT_EXIST)
     response = make_response(render_template('response_template.xml',
                                              response=plivo_response))
     response.headers['content-type'] = 'text/xml'

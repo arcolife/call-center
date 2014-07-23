@@ -17,6 +17,11 @@ CALL_WAIT_MESSAGE = "You are currently being put on hold since the agent  is bus
 # Announcement message before entering the call
 CALL_ANNOUNCEMENT = 'Welcome to the Plivo call-center. How may I help you?'
 
+# When no one is available to answer
+AGENT_NOT_LOGGEDIN = "Agent not logged in. Kindly dial after sometime. Thank you!"
+
+AGENT_DOESNT_EXIST = "This agent does not exist. Kindly check the number you've dialled."
+
 SIP_ENDPOINT = os.environ.get('SIP_ENDPOINT')
 AGENT_CALLER_ID = os.environ.get('CALLER_ID')
 
