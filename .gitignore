@@ -58,3 +58,4 @@ venv
 .state
 *.db
 .pid
+env_vars_heroku
