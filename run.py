@@ -31,6 +31,7 @@ def home(users=None):
     return render_template('index.html',
                            username=None,
                            users=users,
+                           landing_page=True,
                            **TEMPLATE_CONFIGURATION)
 
 
@@ -80,7 +81,7 @@ def agent_portal():
     Agent's login portal.
     """
     #resp = Response("""sent call generation request. <a href="/">Go back.</a>""")
-    return render_template('agent.html')
+    return render_template('portal.html', user_type='agent')
 
 
 @app.route('/customer')    
@@ -88,7 +89,7 @@ def customer_portal():
     """
     Customer's login portal.
     """
-    return render_template('customer.html')
+    return render_template('portal.html', user_type='customer')
 
 
 @app.route('/connect/<cust_CLID>/<agent_CLID>', methods=['GET','POST'])

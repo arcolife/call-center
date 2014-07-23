@@ -2,6 +2,7 @@
 - [x] add plivo SDK based scripts
 - [x] wercker-integrated builds / tests
 - [x] landing page / web-page structures
+- [x] integrate landing page, customer page and agent page using Jinja2
 - [x] minimal functionalities to dial a number / SIP endpoint
 - [x] skeleton of all the functionalities in run.py
 - [x] plivo dashboard
@@ -23,7 +24,6 @@
 - [ ] minmal functionalities to receive a call
 - [ ] refine status labels (modify JS) 
 - [ ] refine agent/customer interface
-- [ ] integrate landing page, customer page and agent page using Jinja2
 - [ ] add functionalities to call queue handling method
 - [ ] investigate busy / unavailable issue
 - [ ] investigate same SIP being called when different(UK/US) numbers dialed
