@@ -21,11 +21,15 @@ An attempt to develop a browser-based call-center demo.
 
   2. To start the instance
        
-   ``` $ ./start ``` OR ``` $ foreman start ```
+   ``` $ ./start ``` 
+   
+   OR 
+   
+   ``` $ foreman start ```
 
-  3. Go to http://localhost:5000/
+* Step 4: Go to http://localhost:5000/ and start your own call center. ;]
 
-  4. Refer below for information on different URL's and their usage.
+* Step 5: Refer below for information on different URL's and their usage.
 
 ### Useful information
 
