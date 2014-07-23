@@ -1,7 +1,7 @@
 Call-Center Demo
 ================
 
-An attempt to develop a browser-based call-center demo.
+An attempt to develop a browser-based call-center. :neckbeard:
 
 [Demo page](http://callcenter1.herokuapp.com/) <-- currently not fully functional
 
@@ -27,7 +27,7 @@ An attempt to develop a browser-based call-center demo.
    
    ``` $ foreman start ```
 
-* Step 4: Go to http://localhost:5000/ and start your own call center. ;]
+* Step 4: Go to http://localhost:5000/ and start your own call center. :sunglasses: :stuck_out_tongue_closed_eyes:
 
 * Step 5: Refer below for information on different URL's and their usage.
 
