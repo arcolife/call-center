@@ -9,6 +9,28 @@ An attempt to develop a browser-based call-center demo.
 
 ***
 
+### Basic Steps to get started.
+
+* Step 1: Register on Plivo and add some credit to get started
+
+* Step 2: Buy a number to test the usability.
+
+* Step 3: Execute the following commands in console:
+
+    1: $ pip install -r requirements.txt 
+
+    2: To start the instance
+       
+       $ ./start
+
+         OR 
+
+       $ foreman start
+
+    3: Go to http://localhost:5000/
+
+    4. Refer below for information on different URL's and their usage.
+
 ### Useful information
 
 - /agent
