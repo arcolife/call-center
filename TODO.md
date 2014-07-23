@@ -21,13 +21,13 @@
 ***
 
 - [ ] host on an instance (since no heroku verified account present)
-- [ ] minmal functionalities to receive a call
+- [ ] connect flask routes to (SDK based) receive / hangup a call
 - [x] add functionalities to call queue handling method
-- [ ] add agent login status models
+- [x] add agent login status models
+- [ ] associate datetime with userQueue in redis
 
 ***
 
-- [ ] refine status labels (modify JS) 
 - [ ] investigate busy / unavailable issue
 - [ ] investigate same SIP being called when different(UK/US) numbers dialed
   - [ ] use of fallback URL
@@ -37,6 +37,6 @@
 
 - [ ] test modules
   - [ ] call receive 
-  - [ ] call dial
+  - [x] call dial
   - [ ] call hold
-  - [ ] call hangup
+  - [x] call hangup

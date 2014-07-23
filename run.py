@@ -10,6 +10,7 @@ import redis
 import plivo 
 
 from app import app
+from werkzeug import check_password_hash
 
 from flask import Flask, \
     render_template, \
@@ -72,6 +73,24 @@ def call_music():
     return response
 
 
+@app.route('/agent/login', methods=['POST'])
+def agent_set():
+    # app.redis.hgetall('agentID')
+    plivo_user = app.redis.hget('agent_credentials','username')
+    plivo_pass = app.redis.hget('agent_credentials','password')
+    resp_user = request.args.get('username')
+    resp_pass = request.args.get('password')
+    if plivo_user == resp_user:
+        if check_password_hash(plivo_pass, resp_pass):
+            app.redis.set('agentLoggedIn',1)
+
+
+@app.route('/agent/logout', methods=['POST'])
+def agent_reset():
+    # app.redis.hgetall('agentID')
+    app.redis.set('agentLoggedIn',0)
+
+
 @app.route('/call/route', methods=['GET','POST'])
 def call_route(CLID=None):
     """
@@ -79,25 +98,30 @@ def call_route(CLID=None):
     """
     plivo_response = plivo.XML.Response()
     if app.redis.exists(SIP_ENDPOINT): # if agent logged in
-        if not int(app.redis.get(SIP_ENDPOINT)): #if agent available
-            plivo_response.addWait(length=2)
-            plivo_response.addSpeak(CALL_ANNOUNCEMENT)
-
-            app.redis.set(SIP_ENDPOINT, 1) #set to busy
-            # forward call to SIP endpoint
-            plivo_response.addDial(callerId=AGENT_CALLER_ID)\
-                          .addUser('sip:'+SIP_ENDPOINT+'@phone.plivo.com')
+        if app.redis.get('agentLoggedIn') == '1':
+            if not int(app.redis.get(SIP_ENDPOINT)): #if agent available
+                app.redis.set(SIP_ENDPOINT, 1) #set to busy
+                # build XML response
+                plivo_response.addWait(length=2)
+                plivo_response.addSpeak(CALL_ANNOUNCEMENT)
+                # forward call to SIP endpoint
+                plivo_response.addDial(callerId=AGENT_CALLER_ID)\
+                              .addUser('sip:'+SIP_ENDPOINT+'@phone.plivo.com')
+            else:
+                # increment queued users count
+                app.redis.incr('queuedUsers')
+                # add user to queued list
+                cust_CLID = request.args.get('custID') # TODO: add datetime
+                if cust_CLID:
+                    app.redis.rpush('userQueue', cust_CLID)
+                # put user on hold
+                return redirect('/call/music')
+            print int(app.redis.get(SIP_ENDPOINT))
         else:
-            # increment queued users count
-            app.redis.incr('queuedUsers')
-            # add user to queued list
-            cust_CLID = request.args.get('custID') # TODO: add datetime
-            app.redis.rpush('userQueue', cust_CLID)
-            # put user on hold
-            return redirect('/call/music')
+            plivo_response.addSpeak('Agent not logged in!')            
     else:
         # no such agent found
-        plivo_response.addSpeak('Agent does not exist or not logged in!')
+        plivo_response.addSpeak('Agent does not exist!')
     response = make_response(render_template('response_template.xml',
                                              response=plivo_response))
     response.headers['content-type'] = 'text/xml'

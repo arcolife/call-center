@@ -3,6 +3,7 @@ from flask import Flask, render_template
 import sys
 import os
 import redis
+from werkzeug import generate_password_hash
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -19,6 +20,12 @@ app.redis.set('agentReady',0)
 
 # warning: the env var set below is just for testing
 app.redis.set(app.config['SIP_ENDPOINT'],0) # TODO: add models and set this only when logged in
+
+app.redis.hmset('agent',{'username': app.config['SIP_ENDPOINT'],
+                         'password': generate_password_hash(os.environ.get('PLIVO_PASS'))})
+
+# from rq import Queue
+# q = Queue(connection=redis.Redis())
 
 # def install_secret_key(app, filename='secret_key'):
 #     """Configure the SECRET_KEY from a file
