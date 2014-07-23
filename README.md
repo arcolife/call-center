@@ -17,21 +17,15 @@ An attempt to develop a browser-based call-center demo.
 
 * Step 3: Execute the following commands in console:
 
-1. ``` $ pip install -r requirements.txt ```
+  1. ``` $ pip install -r requirements.txt ```
 
-2. To start the instance
+  2. To start the instance
        
-```
-       $ ./start
-```
-OR 
-```	 
-       $ foreman start
-```
+   ``` $ ./start ``` OR ``` $ foreman start ```
 
-3. Go to http://localhost:5000/
+  3. Go to http://localhost:5000/
 
-4. Refer below for information on different URL's and their usage.
+  4. Refer below for information on different URL's and their usage.
 
 ### Useful information
 
