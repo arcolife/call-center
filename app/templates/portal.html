@@ -282,7 +282,9 @@
         <hr/>
 
         <div id="logout_box" style="display: none">
+	  {% if user_type=='agent' %}
 	  <p>You are now ready to receive the calls!</p>
+	  {% endif %}
           <input class="btn" type="button" id="btn_logout" onclick="logout()" value="Logout">
           <br/>
         </div>
@@ -304,12 +306,13 @@
           <input class="btn" type="button" id="btn_login" onclick="login()" value="Login">
         </form>
 
-        <!-- <form id="callcontainer" style="display: none"> -->
-        <!--   <input type="text" name="to" value="" id="to" placeholder="Phone number or a SIP URI"> -->
-        <!--   <br/> -->
-        <!--   <a href="#" id="make_call" class="btn main-btn btn-success" onclick="call();">Call</a> -->
-
-        <!-- </form> -->
+	{% if user_type=='customer' %}
+        <form id="callcontainer" style="display: none">
+          <input type="text" name="to" value="" id="to" placeholder="Phone number or a SIP URI">
+          <br/>
+          <a href="#" id="make_call" class="btn main-btn btn-success" onclick="call();">Call</a>
+        </form>
+	{% endif %}
 
         <div id="incoming_callbox" style="display: none;" class="call">
           <a href="#" class="btn main-btn btn-success" onclick="answer()">Answer</a>
