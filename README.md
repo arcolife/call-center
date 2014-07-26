@@ -31,7 +31,7 @@ An attempt to develop a browser-based call-center. :neckbeard:
    OR 
 	``` $ foreman start ```
 
-* Step 6: Go to http://localhost:5000/ and start your own call center. :sunglasses: :stuck_out_tongue_closed_eyes:
+* Step 6: Go to http://URL_OR_IP_WHERE_HOSTED:5000/ and start your own call center. :sunglasses: :stuck_out_tongue_closed_eyes:
 
 * Step 7: Refer below for information on different URLs and their usage.
 
@@ -39,7 +39,7 @@ An attempt to develop a browser-based call-center. :neckbeard:
 
 Different URL paths and their uses:
  
-- /portal/<user_type>
+- /portal/customer OR /portal/agent
   
   This is the login portal for customer/agent
 
