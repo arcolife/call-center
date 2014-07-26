@@ -60,6 +60,7 @@ def call_music():
     Renders the XML to be used for hold music in the call.
     """
     plivo_response = plivo.XML.Response()
+    plivo_response.addWait(length=3)
     plivo_response.addSpeak(CALL_WAIT_MESSAGE)
     plivo_response.addPlay(HOLD_MUSIC, loop=1)
     response = make_response(render_template('response_template.xml', 
@@ -133,6 +134,7 @@ def call_route(CLID=None):
                 q.put(cust_CLID) # add user to queue
             return redirect('/call/music') # put user on hold
     else:
+        plivo_response.addWait(length=3)
         plivo_response.addSpeak(AGENT_NOT_LOGGEDIN)            
     response = make_response(render_template('response_template.xml',
                                              response=plivo_response))
