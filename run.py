@@ -31,8 +31,9 @@ from config import \
     HOLD_MUSIC, \
     SIP_ENDPOINT, \
     AGENT_CALLER_ID, \
-    AGENT_NOT_LOGGEDIN, \
-    AGENT_DOESNT_EXIST
+    AGENT_NOT_LOGGEDIN
+
+# AGENT_DOESNT_EXIST
 
 
 @app.route('/')
@@ -96,11 +97,6 @@ def user_busy(user_type):
         app.redis.set('customerReady',0)
     return Response('0')
 
-# @app.route('/agent/busy', methods=['GET','POST'])
-# def agent_busy():
-#     app.redis.set('agentLoggedIn',1)
-#     app.redis.set('agentReady',0)
-#     return Response('0')
 
 @app.route('/<user_type>/logout', methods=['GET','POST'])
 def credential_reset(user_type):
@@ -114,10 +110,24 @@ def credential_reset(user_type):
         return render_template('404.html')
     return Response('0')
 
-@app.route('/query/queue')
-def query_queue():
-    if q.qsize():
-        return q.get()
+# TODO: Add call transfer wrappers.
+def transfer_call(CLID):
+    """ Transfer customer put on hold 
+    to a free agent """
+    pass
+
+def process_queue():
+    """ Process queued calls from Customers """
+    from threading import Thread
+    def worker(num_worker_threads = 10):
+        while q.qsize():
+            CLID = q.get()
+            transfer_call(CLID)
+            # TODO: code to check if agent is free again
+    for i in range(num_worker_threads):
+         t = Thread(target=worker)
+         t.daemon = True
+         t.start()
 
 @app.route('/call/route', methods=['GET','POST'])
 def call_route(CLID=None):
