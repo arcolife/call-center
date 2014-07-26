@@ -4,7 +4,9 @@ Call-Center Demo
 
 An attempt to develop a browser-based call-center. :neckbeard:
 
-[Demo page](http://callcenter1.herokuapp.com/) <-- currently not fully functional
+[Demo page](http://callcenter1.herokuapp.com/) <-- currently not fully functional 
+      
+(since it's not a verified account, hence RedisDB integration not possible)
 
 ***
 ### Basic Steps to get started.
@@ -13,7 +15,13 @@ An attempt to develop a browser-based call-center. :neckbeard:
 
 * Step 2: Buy a number to test the usability.
 
-* Step 3: Execute the following commands in console:
+* Step 3: Connect number to applitcation-type: DirectDial, 
+
+       	  Config: Answer_url - http://URL_OR_IP_WHERE_HOSTED/call/route
+
+* Step 4: Add an endpoint and connect it to the number you bought.
+
+* Step 5: Execute the following commands in console:
 
   1. clone this repo; go to project root; run:
    ``` $ pip install -r requirements.txt ```
@@ -23,9 +31,9 @@ An attempt to develop a browser-based call-center. :neckbeard:
    OR 
 	``` $ foreman start ```
 
-* Step 4: Go to http://localhost:5000/ and start your own call center. :sunglasses: :stuck_out_tongue_closed_eyes:
+* Step 6: Go to http://localhost:5000/ and start your own call center. :sunglasses: :stuck_out_tongue_closed_eyes:
 
-* Step 5: Refer below for information on different URLs and their usage.
+* Step 7: Refer below for information on different URLs and their usage.
 
 ### Useful information
 
@@ -35,23 +43,15 @@ Different URL paths and their uses:
   
   This is the login portal for customer/agent
 
-- /agent/login
+- /call/route?CLID=9999999999
   
-  changes agent's login status in DB (based on credentials from form)
+  Re-routes customer's call to a busy tone if agent not free. And adds to queue.
 
-- /agent/logout
-  
-  logs out agent.
-  
-- /call/route?CLID=1234
-  
-  Re-routes customer's call to a busy tone if agent not free. 
-
-  Else replies in affirmative, as XML.
+  Else gets connected to the free agent and wait for an answer.
 
 - /call/music/
 
-  Return music as XML response for call on hold
+  Return music (in XML response) for call on hold.
 
 ***
 
