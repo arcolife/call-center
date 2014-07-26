@@ -23,14 +23,15 @@
 - [x] host on an instance (since no heroku verified account present)
 - [x] add functionalities to call queue handling method
 - [x] add agent login status models
-- [ ] associate datetime with userQueue in redis
+- [x] associate datetime with userQueue in redis # NOT NEEDED
 - [x] connect flask routes to SDK
+- [ ] add threading to queue (poll status)
 
 ***
 
-- [ ] investigate busy / unavailable issue
-- [ ] investigate same SIP being called when different(UK/US) numbers dialed
-  - [ ] use of fallback URL
+- [x] investigate busy / unavailable issue
+- [x] investigate same SIP being called when different(UK/US) numbers dialed
+  - [x] use of fallback URL
   - [ ] use of an alternate tone (.ogg) file
 
 ***
@@ -38,5 +39,5 @@
 - [ ] test modules
   - [ ] call receive 
   - [x] call dial
-  - [ ] call hold
+  - [x] call hold
   - [x] call hangup
