@@ -119,6 +119,7 @@
 
     function onLoginFailed() {
     $('#status_txt').text("Login Failed");
+    $.post("/{{user_type}}/logout");
     }
 
     function onLogout() {
@@ -128,7 +129,6 @@
     function onCalling() {
     console.log("onCalling");
     $('#status_txt').text('Connecting....');
-    $.post("/agent/busy");
     }
 
     function onCallRemoteRinging() {
@@ -139,6 +139,7 @@
     console.log('onCallAnswered');
     callAnsweredUI();
     $('#status_txt').text('Call Answered');
+    $.post("/agent/busy");
     }
 
     function onCallTerminated() {
@@ -234,6 +235,7 @@
     $('#status_txt').text('Answering....');
     Plivo.conn.answer();
     callAnsweredUI()
+    $.post("/agent/busy");
     }
 
     function reject() {
