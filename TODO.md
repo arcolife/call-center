@@ -25,7 +25,10 @@
 - [x] add agent login status models
 - [x] associate datetime with userQueue in redis # NOT NEEDED
 - [x] connect flask routes to SDK
-- [ ] add threading to queue (poll status)
+- [x] Issue: User logged in, but when page refreshed, login dialogue appears (although in backend, the user is logged in).
+- [x] Issue: customer login/logout affects agentReady status
+- [ ] Issue: call queue doesn't support polling. Just being updated. Not being processed
+- [ ] Issue: when call is answered, the agentReady status isn't changed. So other calls ring for sometime, hear "welcome", get ringing tone and then it hangs up. Creates confusion.
 
 ***
 

@@ -102,12 +102,12 @@
 
     function login() {
     Plivo.conn.login($("#username").val(), $("#password").val());
-    $.post( "/agent/login", [ $("#username").val(), $("#password").val()]);
+    $.post( "/{{user_type}}/login", [ $("#username").val(), $("#password").val()]);
     }
 
     function logout() {
     Plivo.conn.logout();
-    $.post("/agent/logout");
+    $.post("/{{user_type}}/logout");
     }
 
     function onLogin() {
@@ -144,14 +144,14 @@
     function onCallTerminated() {
     console.log("onCallTerminated");
     callUI();
-    $.post("/agent/hangup");
+    $.post("/{{user_type}}/hangup");
     }
 
     function onCallFailed(cause) {
     console.log("onCallFailed:"+cause);
     callUI();
     $('#status_txt').text("Call Failed:"+cause);
-    $.post("/agent/hangup");
+    $.post("/{{user_type}}/hangup");
     }
 
     function call() {
@@ -172,14 +172,14 @@
     Plivo.conn.hangup();
     $('#make_call').text('Call');
     $('#status_txt').text('Ready');
-    $.post("/agent/hangup");
+    $.post("/{{user_type}}/hangup");
     }
     }
 
     function hangup() {
     $('#status_txt').text('Hanging up..');
     Plivo.conn.hangup();
-    $.post("/agent/hangup");
+    $.post("/{{user_type}}/hangup");
     callUI()
     }
 
@@ -218,7 +218,7 @@
 
     function onIncomingCallCanceled() {
     callUI();
-    $.post("/agent/hangup");
+    $.post("/{{user_type}}/hangup");
     }
 
     function  onMediaPermission (result) {
@@ -239,7 +239,7 @@
     function reject() {
     callUI()
     Plivo.conn.reject();
-    $.post("/agent/hangup");
+    $.post("/{{user_type}}/hangup");
     }
 
     $(document).ready(function() {
@@ -292,7 +292,7 @@
         <span class="label" id="status_txt">Login</span><br/><br/>
 
 
-        <form id="login_box" title="Login" style="" action="/agent/login" method="get">
+        <form id="login_box" title="Login" style="" action="/{{user_type}}/login" method="get">
           <label>Username</label>
           <input type="text" name="username" value="" id="username">
 

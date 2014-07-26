@@ -51,6 +51,7 @@ def portal(user_type):
     """
     login portal.
     """
+    credential_reset(user_type)
     return render_template('portal.html', user_type=user_type)
 
 @app.route('/call/music/', methods=['GET', 'POST'])
@@ -66,9 +67,9 @@ def call_music():
     response.headers['content-type'] = 'text/xml'
     return response
 
-@app.route('/agent/hangup', methods=['GET','POST'])
-@app.route('/agent/login', methods=['GET','POST'])
-def agent_set():
+@app.route('/<user_type>/hangup', methods=['GET','POST'])
+@app.route('/<user_type>/login', methods=['GET','POST'])
+def credential_set(user_type):
     # plivo_user = app.redis.hget('agent','username')
     # plivo_pass = app.redis.hget('agent','password')
     # resp_user = request.args.get('username')
@@ -76,8 +77,13 @@ def agent_set():
     # if plivo_user == resp_user:
     #     if check_password_hash(plivo_pass, resp_pass):
     #         app.redis.set('agentLoggedIn',1)
-    app.redis.set('agentLoggedIn',1)
-    app.redis.set('agentReady',1)
+    if user_type == 'agent':
+        app.redis.set('agentLoggedIn',1)
+        app.redis.set('agentReady',1)
+    elif user_type == 'customer':
+        app.redis.set('customerLoggedIn',1)
+    else:
+        return render_template('404.html')
     return Response('1')
 
 @app.route('/agent/busy', methods=['GET','POST'])
@@ -86,10 +92,15 @@ def agent_busy():
     app.redis.set('agentReady',0)
     return Response('0')
 
-@app.route('/agent/logout', methods=['GET','POST'])
-def agent_reset():
-    app.redis.set('agentLoggedIn',0)
-    app.redis.set('agentReady',0)
+@app.route('/<user_type>/logout', methods=['GET','POST'])
+def credential_reset(user_type):
+    if user_type == 'agent':
+        app.redis.set('agentLoggedIn',0)
+        app.redis.set('agentReady',0)
+    elif user_type == 'customer':
+        app.redis.set('customerLoggedIn',0)
+    else:
+        return render_template('404.html')
     return Response('0')
 
 @app.route('/query/queue')
