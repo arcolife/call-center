@@ -28,7 +28,7 @@
 - [x] Issue: User logged in, but when page refreshed, login dialogue appears (although in backend, the user is logged in).
 - [x] Issue: customer login/logout affects agentReady status
 - [x] Issue: when call is answered, the agentReady status isn't changed. So other calls ring for sometime, hear "welcome", get ringing tone and then it hangs up. Creates confusion.
-- [ ] Issue: call queue doesn't support polling. Just being updated. Not being processed
+- [ ] Issue: call queue doesn't support polling. Just being updated. Not being processed -- Use Call Transfer API
 
 ***
 
@@ -39,8 +39,8 @@
 
 ***
 
-- [ ] test modules
-  - [ ] call receive 
+- [x] test modules
+  - [x] call receive 
   - [x] call dial
   - [x] call hold
   - [x] call hangup
