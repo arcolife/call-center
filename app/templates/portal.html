@@ -139,7 +139,7 @@
     console.log('onCallAnswered');
     callAnsweredUI();
     $('#status_txt').text('Call Answered');
-    $.post("/agent/busy");
+    $.post("/{{user_type}}/busy");
     }
 
     function onCallTerminated() {
@@ -235,7 +235,7 @@
     $('#status_txt').text('Answering....');
     Plivo.conn.answer();
     callAnsweredUI()
-    $.post("/agent/busy");
+    $.post("/{{user_type}}/busy");
     }
 
     function reject() {

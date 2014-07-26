@@ -18,6 +18,7 @@ app.redis.set(app.config['AGENT_CALLER_ID'], app.config['SIP_ENDPOINT'])
 app.redis.set('agentLoggedIn',0)
 app.redis.set('agentReady',0)
 app.redis.set('customerLoggedIn',0)
+app.redis.set('customerReady',0)
 
 # app.redis.set(app.config['SIP_ENDPOINT'],0) 
 # TODO: add models and set this only when logged in

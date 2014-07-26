@@ -83,15 +83,24 @@ def credential_set(user_type):
         app.redis.set('agentReady',1)
     elif user_type == 'customer':
         app.redis.set('customerLoggedIn',1)
+        app.redis.set('customerReady',1)
     else:
         return render_template('404.html')
     return Response('1')
 
-@app.route('/agent/busy', methods=['GET','POST'])
-def agent_busy():
-    app.redis.set('agentLoggedIn',1)
-    app.redis.set('agentReady',0)
+@app.route('/<user_type>/busy', methods=['GET','POST'])
+def user_busy(user_type):
+    if user_type == 'agent':
+        app.redis.set('agentReady',0)
+    elif user_type == 'customer':
+        app.redis.set('customerReady',0)
     return Response('0')
+
+# @app.route('/agent/busy', methods=['GET','POST'])
+# def agent_busy():
+#     app.redis.set('agentLoggedIn',1)
+#     app.redis.set('agentReady',0)
+#     return Response('0')
 
 @app.route('/<user_type>/logout', methods=['GET','POST'])
 def credential_reset(user_type):
@@ -100,6 +109,7 @@ def credential_reset(user_type):
         app.redis.set('agentReady',0)
     elif user_type == 'customer':
         app.redis.set('customerLoggedIn',0)
+        app.redis.set('customerReady',0)
     else:
         return render_template('404.html')
     return Response('0')
@@ -136,6 +146,7 @@ def call_route(CLID=None):
     else:
         plivo_response.addWait(length=3)
         plivo_response.addSpeak(AGENT_NOT_LOGGEDIN)            
+        credential_reset('agent')
     response = make_response(render_template('response_template.xml',
                                              response=plivo_response))
     response.headers['content-type'] = 'text/xml'
